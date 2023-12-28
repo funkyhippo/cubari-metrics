@@ -120,5 +120,7 @@ func (s *Sink) exportMetrics() {
 
 	if err != nil {
 		log.Println("Failed emitting metrics to remote", err)
+	} else {
+		log.Println("Successfully wrote metrics to remote")
 	}
 }
