@@ -14,8 +14,5 @@ func main() {
 	// to the remote before the service shuts down (ie. signal.Notify). However, these
 	// metrics should be high volume and lossy so it shouldn't be that important
 	go server.Start()
-	go sink.Start()
-
-	for {
-	}
+	sink.Start()
 }
