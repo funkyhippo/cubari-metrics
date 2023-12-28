@@ -75,13 +75,10 @@ func (s *Sink) handleMetric(metric Metric) {
 		log.Println("Property not found", metric.Property)
 		return
 	}
-	log.Println("Incrementing property metadata", metric)
 	propMetadata[metric.Metadata] += 1
 }
 
 func (s *Sink) exportMetrics() {
-	log.Println("Exporting metrics to prom remote_write endpoint")
-
 	exportTimestamp := time.Now()
 	var timeSeriesList []promremote.TimeSeries
 
@@ -120,7 +117,5 @@ func (s *Sink) exportMetrics() {
 
 	if err != nil {
 		log.Println("Failed emitting metrics to remote", err)
-	} else {
-		log.Println("Successfully wrote metrics to remote")
 	}
 }
