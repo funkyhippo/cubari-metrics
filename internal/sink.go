@@ -20,6 +20,10 @@ type Metric struct {
 	Metadata string `json:"m"`
 }
 
+type Timing struct {
+	Timing string `json:"t"`
+}
+
 type Sink struct {
 	metricsMap  map[string]map[string]float64
 	metricsChan <-chan Metric

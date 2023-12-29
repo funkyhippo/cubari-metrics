@@ -2,6 +2,9 @@ package internal
 
 import (
 	"encoding/json"
+	"fmt"
+	"io"
+	"log"
 	"net/http"
 )
 
@@ -31,9 +34,25 @@ func (s *Server) Start() {
 }
 
 func (ih *ingestHandler) ingest(w http.ResponseWriter, r *http.Request) {
+	defer func() {
+		w.WriteHeader(http.StatusNoContent)
+	}()
+
+	bodyBytes, err := io.ReadAll(r.Body)
+	if err != nil {
+		return
+	}
+
 	var metric Metric
-	if err := json.NewDecoder(r.Body).Decode(&metric); err == nil {
+	if err := json.Unmarshal(bodyBytes, &metric); err == nil {
 		ih.metricsChan <- metric
 	}
-	w.WriteHeader(http.StatusNoContent)
+	var timing Timing
+	if err := json.Unmarshal(bodyBytes, &timing); err == nil {
+		requestTiming := timing.Timing
+		countryHeader := r.Header.Get("CF-IPCountry")
+		if requestTiming != "" && countryHeader != "" {
+			log.Println(fmt.Sprintf("RequestTiming t=%s country=%s", requestTiming, countryHeader))
+		}
+	}
 }
