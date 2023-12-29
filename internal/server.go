@@ -3,7 +3,7 @@ package internal
 import (
 	"encoding/json"
 	"fmt"
-	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -38,7 +38,7 @@ func (ih *ingestHandler) ingest(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNoContent)
 	}()
 
-	bodyBytes, err := io.ReadAll(r.Body)
+	bodyBytes, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return
 	}
