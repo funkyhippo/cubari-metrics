@@ -51,11 +51,8 @@ func (ih *ingestHandler) ingest(w http.ResponseWriter, r *http.Request) {
 	if err := json.Unmarshal(bodyBytes, &timing); err == nil {
 		requestTiming := timing.Timing
 		countryHeader := r.Header.Get("Cf-Ipcountry")
-		log.Println(r.Header)
-		log.Println(requestTiming)
-		log.Println(countryHeader)
-		if requestTiming != "" && countryHeader != "" {
-			log.Println(fmt.Sprintf("RequestTiming t=%s country=%s", requestTiming, countryHeader))
+		if requestTiming != 0 && countryHeader != "" {
+			log.Println(fmt.Sprintf("RequestTiming t=%v country=%s", requestTiming, countryHeader))
 		}
 	}
 }

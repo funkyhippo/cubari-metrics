@@ -21,7 +21,7 @@ type Metric struct {
 }
 
 type Timing struct {
-	Timing string `json:"t"`
+	Timing float32 `json:"t"`
 }
 
 type Sink struct {
